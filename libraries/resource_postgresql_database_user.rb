@@ -41,6 +41,14 @@ class Chef
         )
       end
 
+      def role_options(arg=nil)
+        set_or_return(
+          :role_options,
+          arg,
+          :kind_of => Array
+        )
+      end
+
     end
   end
 end

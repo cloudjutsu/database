@@ -37,7 +37,8 @@ class Chef
         def action_create
           unless exists?
             begin
-              db("template1").query("CREATE USER \"#{@new_resource.username}\" WITH PASSWORD '#{@new_resource.password}'")
+              query = "CREATE ROLE \"#{@new_resource.username}\" WITH PASSWORD '#{@new_resource.password}' #{(@new_resource.role_options || [] ).join( " " ).upcase}"
+              db("template1").query(query)
               @new_resource.updated_by_last_action(true)
             ensure
               close
@@ -48,7 +49,7 @@ class Chef
         def action_drop
           if exists?
             begin
-              db("template1").query("DROP USER \"#{@new_resource.username}\"")
+              db("template1").query("DROP ROLE \"#{@new_resource.username}\"")
               @new_resource.updated_by_last_action(true)
             ensure
               close
